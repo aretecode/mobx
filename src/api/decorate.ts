@@ -9,6 +9,10 @@ export function decorate<T>(
     decorators: { [P in keyof T]: MethodDecorator | PropertyDecorator }
 ): T
 export function decorate(thing: any, decorators: any) {
+    if (arguments.length === 1) {
+        return decorateWith(decorators)
+    }
+
     process.env.NODE_ENV !== "production" &&
         invariant(isPlainObject(decorators), "Decorators should be a key value map")
     const target = typeof thing === "function" ? thing.prototype : thing
@@ -24,4 +28,8 @@ export function decorate(thing: any, decorators: any) {
         if (newDescriptor) Object.defineProperty(target, prop, newDescriptor)
     }
     return thing
+}
+
+export function decorateWith(decorators: any) {
+    return thing => decorate(thing, decorators)
 }
