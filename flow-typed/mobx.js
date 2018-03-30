@@ -1,10 +1,5 @@
 // @flow
 
-declare export function getAtom(thing: any, property?: string): IDepTreeNode
-declare export function getDebugName(thing: any, property?: string): string
-declare export function getDependencyTree(thing: any, property?: string): IDependencyTree
-declare export function getObserverTree(thing: any, property?: string): IObserverTree
-
 export type IObservableMapInitialValues<K, V> = IMapEntries<K, V> | KeyValueMap<V> | IMap<K, V>
 
 export interface IMobxConfigurationOptions {
@@ -295,11 +290,17 @@ declare export function action(
 declare export function action<T>(name: string, func: T): T
 declare export function action<T>(func: T): T
 
+declare export function runInAction<T>(name: string, block: () => T): T
 declare export function runInAction<T>(block: () => T): T
 declare export function isAction(thing: any): boolean
 declare export function autorun(
     nameOrFunction: string | ((r: IReactionPublic) => any),
     options?: IAutorunOptions
+): any
+declare export function reaction<T>(
+    expression: (r: IReactionPublic) => T,
+    effect: (arg: T, r: IReactionPublic) => void,
+    opts?: IReactionOptions
 ): any
 
 export interface IWhenOptions {
@@ -475,3 +476,8 @@ declare export function onBecomeUnobserved<K>(
     property: K,
     listener: Lambda
 ): Lambda
+
+declare export function getAtom(thing: any, property?: string): IDepTreeNode
+declare export function getDebugName(thing: any, property?: string): string
+declare export function getDependencyTree(thing: any, property?: string): IDependencyTree
+declare export function getObserverTree(thing: any, property?: string): IObserverTree
